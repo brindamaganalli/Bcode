@@ -1,0 +1,119 @@
+import os
+
+def clear_screen():
+    # Clear the terminal screen for better readability
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def display_hangman(tries):
+    stages = ["""
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |     / \\
+                   -
+                """,
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |     / 
+                   -
+                """,
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |      
+                   -
+                """,
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|
+                   |      |
+                   |     
+                   -
+                """,
+                """
+                   --------
+                   |      |
+                   |      O
+                   |      |
+                   |      |
+                   |     
+                   -
+                """,
+                """
+                   --------
+                   |      |
+                   |      O
+                   |    
+                   |      
+                   |     
+                   -
+                """,
+                """
+                   --------
+                   |      |
+                   |      
+                   |    
+                   |      
+                   |     
+                   -
+                """]
+    return stages[tries]
+
+def get_guess():
+    guess = input("Enter your guess: ").upper()
+    while not guess.isalpha() or len(guess) != 1:
+        guess = input("Invalid input. Enter a single letter: ").upper()
+    return guess
+
+def play_hangman(word):
+    word = word.upper()
+    guessed_letters = set()
+    correct_letters = set(word)
+    tries = 6
+    display_word = "_" * len(word)
+
+    while tries > 0 and set(display_word) != correct_letters:
+        clear_screen()
+        print(display_hangman(tries))
+        print("Word: " + ' '.join(display_word))
+        print("Guessed letters: " + ', '.join(sorted(guessed_letters)))
+
+        guess = get_guess()
+
+        if guess in guessed_letters:
+            print("You already guessed that letter.")
+            continue
+
+        guessed_letters.add(guess)
+
+        if guess in correct_letters:
+            display_word = ''.join([letter if letter in guessed_letters else '_' for letter in word])
+        else:
+            tries -= 1
+
+    clear_screen()
+    if set(display_word) == correct_letters:
+        print("Congratulations! You guessed the word: " + word)
+    else:
+        print(display_hangman(tries))
+        print("You lost! The word was: " + word)
+
+def main():
+    print("Welcome to the 2-Player Hangman Game!")
+    word = input("Player 1, enter your word: ").upper()
+    clear_screen()
+    play_hangman(word)
+
+if __name__ == "__main__":
+    main()
