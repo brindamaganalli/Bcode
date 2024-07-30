@@ -1,0 +1,77 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report, confusion_matrix
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input, LSTM, Dense
+from tensorflow.keras.callbacks import EarlyStopping
+
+data = pd.read_csv('ecg.csv')
+
+print(data.info())
+print(data.describe())
+
+print(data.isnull().sum())
+
+sns.countplot(data.iloc[:, -1])
+plt.title('Distribution of Emotions')
+plt.show()
+
+data = data.dropna()  
+
+corr_matrix = data.corr()
+sns.heatmap(corr_matrix, annot=True, fmt=".2f")
+plt.title('Correlation Matrix')
+plt.show()
+
+X = data.iloc[:, :-1].values
+y = data.iloc[:, -1].values
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+X_reshaped = X_scaled.reshape((X_scaled.shape[0], 1, X_scaled.shape[1]))
+
+X_train, X_test, y_train, y_test = train_test_split(X_reshaped, y, test_size=0.2, random_state=42)
+
+model = Sequential()
+model.add(Input(shape=(X_train.shape[1], X_train.shape[2])))
+model.add(LSTM(64, return_sequences=True))
+model.add(LSTM(64))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))  # Assuming binary classification for simplicity
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+
+history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping])
+
+loss, accuracy = model.evaluate(X_test, y_test)
+print(f'Test Accuracy: {accuracy:.4f}')
+
+plt.plot(history.history['loss'], label='train_loss')
+plt.plot(history.history['val_loss'], label='val_loss')
+plt.legend()
+plt.title('Model Loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.show()
+
+plt.plot(history.history['accuracy'], label='train_accuracy')
+plt.plot(history.history['val_accuracy'], label='val_accuracy')
+plt.legend()
+plt.title('Model Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.show()
+
+y_pred = model.predict(X_test)
+y_pred = (y_pred > 0.5).astype(int)
+
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
