@@ -1,0 +1,78 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the data
+df = pd.read_csv("fcc-forum-pageviews.csv")
+
+# Set the index to the date column
+df['date'] = pd.to_datetime(df['date'])
+df.set_index('date', inplace=True)
+
+# Clean the data
+q_low = df['value'].quantile(0.025)
+q_hi = df['value'].quantile(0.975)
+df_clean = df[(df['value'] >= q_low) & (df['value'] <= q_hi)].copy()
+
+# Draw Line Plot
+def draw_line_plot():
+    plt.figure(figsize=(12, 6))
+    plt.plot(df_clean.index, df_clean['value'], color='blue')
+    plt.title('Daily freeCodeCamp Forum Page Views 5/2016-12/2019')
+    plt.xlabel('Date')
+    plt.ylabel('Page Views')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig('line_plot.png')  # Save the plot as an image file
+    plt.show()
+
+# Draw Bar Plot
+def draw_bar_plot():
+    df_clean['year'] = df_clean.index.year
+    df_clean['month'] = df_clean.index.month_name()
+
+    monthly_avg = df_clean.groupby(['year', 'month'])['value'].mean().unstack()
+    
+    plt.figure(figsize=(12, 6))
+    monthly_avg.plot(kind='bar', width=0.8)
+    plt.title('Average Daily Page Views by Month')
+    plt.xlabel('Years')
+    plt.ylabel('Average Page Views')
+    plt.legend(title='Months')
+    plt.tight_layout()
+    plt.savefig('bar_plot.png')  # Save the plot as an image file
+    plt.show()
+
+# Draw Box Plot
+def draw_box_plot():
+    df_clean['year'] = df_clean.index.year
+    df_clean['month'] = df_clean.index.month_name()
+    df_clean['month_num'] = df_clean.index.month
+
+    plt.figure(figsize=(14, 6))
+
+    # Year-wise Box Plot
+    plt.subplot(1, 2, 1)
+    sns.boxplot(x='year', y='value', data=df_clean)
+    plt.title('Year-wise Box Plot (Trend)')
+    plt.xlabel('Year')
+    plt.ylabel('Page Views')
+    
+    # Month-wise Box Plot
+    plt.subplot(1, 2, 2)
+    sns.boxplot(x='month_num', y='value', data=df_clean, order=[
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ])
+    plt.title('Month-wise Box Plot (Seasonality)')
+    plt.xlabel('Month')
+    plt.ylabel('Page Views')
+    
+    plt.tight_layout()
+    plt.savefig('box_plot.png')  # Save the plot as an image file
+    plt.show()
+
+# Run the functions
+draw_line_plot()
+draw_bar_plot()
+draw_box_plot()
