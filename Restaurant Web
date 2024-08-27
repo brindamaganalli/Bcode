@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIMA RESTAURANT</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        /* Header Section */
+        header {
+            background-color: #0c292dc5;
+            color: #fff;
+            padding: 1rem 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-left: 20px;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-right: 20px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #ff6347;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://assets.cntraveller.in/photos/651e65983734f323ef3d37fe/16:9/w_960,c_limit/SWING-9.jpgp/1200x600') no-repeat center center/cover;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Menu Section */
+        #menu {
+            padding: 70px 0;
+            background-color: #fff;
+        }
+
+        #menu h2 {
+            font-style: oblique;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #1d1751;
+            position: relative;
+        }
+
+        #menu h2::after {
+            content: '';
+            width: 100px;
+            height: 3px;
+            background: #ff6347;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+        }
+
+        .menu-filter {
+            font-style: inherit;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-filter select {
+            font-style: initial;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px;
+            width: 250px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item h3 {
+            font-size: 1.7rem;
+            margin-bottom: 10px;
+            color: #ff6347;
+        }
+
+        .menu-item p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .menu-item span {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Contact Section */
+        #contact {
+            padding: 70px 0;
+            background-color: #f4f4f4;
+        }
+
+        #contact h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #ff6347;
+            position: relative;
+        }
+
+        #contact h2::after {
+            content: '';
+            width: 100px;
+            height: 3px;
+            background: #ff6347;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+        }
+
+        #contactForm {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <h1>BiMa Restaurant</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h2>Welcome to BiMa Restaurant</h2>
+            <p>Experience the best culinary delights in town!</p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <div class="menu-filter">
+                <select id="menuCategory">
+                    <option value="">Select a category</option>
+                    <option value="starters">Starters</option>
+                    <option value="main">Main Courses</option>
+                    <option value="breads">Bread</option>
+                    <option value="Rice">Rice</option>
+                    <option value="desserts">Desserts</option>
+                    <option value="drinks">Drinks</option>
+                </select>
+            </div>
+            <div class="menu-items">
+                <div class="menu-item" data-category="starters">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjhesFaZNSBiejqpFpFAM0dtD9FNWyl_JmnVfCGbrh0IIbDJOoNxnyzJCcykPuG6DKjtPT21ml9GYy1-AQ40novwUUfzMAysXt_vcVLP0wmPHBXoCjn7BgE3lBOS_rFIv7NfK3cPqH_7Es/s400/egg+chili+recipe+egg+recipes+how+to+make+egg+in+chinese+style+kerala+style.jpg" alt="Chilli Egg">
+                    <h3>Chilli egg</h3>
+                    <p>flavorful eggs coated in a tangy chili sauce with a hint of garlic and ginger.</p>
+                    <span>Rs.250</span>
+                  </div>
+                <div class="menu-item" data-category="starters">
+                  <img src="https://onestophalal.com/cdn/shop/articles/air_fryer_chicken_tandoori-1694242200588_1200x.jpg?v=1694242335" alt="Tandoori">
+                  <h3>Chicken Tandoori</h3>
+                  <p>Juicy chicken marinated in a blend of spices and yogurt, grilled to perfection in a tandoor oven.</p>
+                  <span>Rs.300</span>
+                </div>
+                <div class="menu-item" data-category="starters">
+                  <img src="https://www.sanjanafeasts.co.uk/wp-content/uploads/2020/02/Restaurant-Style-Paneer-Tikka-recipe.jpg.webp" alt="panner">
+                  <h3>Paneer Tikka</h3>
+                  <p>Marinated chunks of paneer grilled to perfection with smoky flavors and a blend of spices.</p>
+                  <span>Rs.280</span>
+                  </div>
+                <div class="menu-item" data-category="main">
+                    <img src="https://www.sharmispassions.com/wp-content/uploads/2021/09/PaneerBhurji4.jpg" alt="Paneer Burji">
+                    <h3>Paneer Burji</h3>
+                    <p> flavorful Indian dish made from crumbled paneer (cottage cheese) .</p>
+                    <span>Rs.290</span>
+                </div>
+                <div class="menu-item" data-category="main">
+                  <img src="https://www.vegrecipesofindia.com/wp-content/uploads/2020/01/paneer-butter-masala-5.jpg" alt="paneer butter">
+                  <h3>Paneer Butter Masala</h3>
+                  <p> rich and creamy Indian curry featuring soft paneer cubes simmered in a spiced tomato and butter sauce</p> 
+                  <span>Rs.300</span>
+                </div>
+                <div class="menu-item" data-category="main">
+                  <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2022/04/egg-curry-recipe.jpg" alt="egg curry">
+                  <h3>Egg Curry</h3>
+                  <p>A savory and aromatic dish featuring hard-boiled eggs simmered in a rich, spiced tomato and onion sauce."</p>
+                  <span>Rs.300</span>
+                </div>
+                <div class="menu-item" data-category="main">
+                  <img src="https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Instant-Pot-Chicken-Curry-Recipe.jpg" alt="chicken curry">
+                  <h3>Chicken Curry</h3>
+                  <p>Spicy and flavorful chicken curry simmered with aromatic spices and tender chicken pieces</p>
+                  <span>Rs.350</span>
+                </div>
+                <div class="menu-item" data-category="breads">
+                  <img src="https://www.cookwithmanali.com/wp-content/uploads/2021/07/Tandoori-Roti-500x500.jpg" alt="Roti">
+                  <h3>Roti</h3>
+                  <p>A traditional, unleavened flatbread that is a staple soft texture and versatility.</p>
+                  <span>Rs.20</span>
+                </div>
+                <div class="menu-item" data-category="breads">
+                  <img src="https://www.vegrecipesofindia.com/wp-content/uploads/2013/07/naan-recipe-2.jpg" alt="Naan">
+                  <h3>Naan</h3>
+                  <p>Soft, fluffy Indian flatbread traditionally baked in a tandoor oven</p>
+                  <span>Rs.30</span>
+                </div>
+                <div class="menu-item" data-category="breads">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmQZxX-HjHeOjBsbSsFntLUsfoD4uNtoFhZw&s" alt="Phulka">
+                  <h3>Phulka</h3>
+                  <p> Soft, round Indian flatbreads made with whole wheat flour, traditionally cooked on an open flame </p>
+                  <span>Rs.15</span>
+                </div>
+                <div class="menu-item" data-category="Rice">
+                  <img src="https://myfoodstory.com/wp-content/uploads/2018/07/Perfect-Jeera-Rice-Indian-Cumin-Rice-4.jpg" alt="Jeera Rice">
+                  <h3>Jeera Rice</h3>
+                  <p>Aromatic basmati rice cooked with cumin seeds for a simple yet flavorful side dish</p>
+                  <span>Rs.180</span>
+                </div>
+                <div class="menu-item" data-category="Rice">
+                  <img src="https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg" alt="Chicekn Biryani">
+                  <h3>Chicken Biryani</h3>
+                  <p>A flavorful and aromatic rice dish featuring tender chicken, fragrant spices, and a blend of saffron and herbs</p>
+                  <Span>Rs.350</Span>
+                </div>
+                <Div class="menu-item" data-category="Rice">
+                  <img src="https://spicecravings.com/wp-content/uploads/2020/10/Egg-Biryani-Featured-1.jpg" alt="Egg">
+                  <h3>Egg Biryani</h3>
+                  <p>A flavorful rice dish layered with spiced, aromatic basmati rice and hard-boiled eggs</p>
+                  <span>Rs.300</span>
+                </Div>
+                <div class="menu-item" data-category="desserts">
+                    <img src="https://i0.wp.com/aartimadan.com/wp-content/uploads/2020/11/milk-powder-gulab-jamuns.jpg?w=1000&ssl=1" alt="Gulab Jamoon">
+                    <h3>Gulab Jamun</h3>
+                    <p>Sweet, deep-fried dough balls soaked in rose-flavored sugar syrup for a rich, indulgent treat.</p>
+                    <span>Rs.29</span>
+                </div>
+                <div class="menu-item" data-category="Desserts">
+                  <img src="https://www.cookwithmanali.com/wp-content/uploads/2015/01/Gajar-Halwa-Indian-768x1164.jpg" alt="GKH">
+                  <h3>Gajar Ka Halwa</h3>
+                  <p>A warm, spiced dessert made from grated carrots simmered in milk and ghee, often garnished with nuts</p>
+                  <span>Rs.150</span>
+                </div>
+                <div class="menu-item" data-category="Desserts">
+                  <img src="https://www.kashmironlinestore.com/cdn/shop/articles/Untitled_design_54_1024x.jpg?v=1692702218" alt="Rasamali">
+                  <h3>Rasamalai</h3>
+                  <p>Soft, creamy cheese dumplings soaked in a delicately flavored milk sauce with cardamom and saffron</p>
+                  <span>Rs.50</span>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <img src="https://thenovicechefblog.com/wp-content/uploads/2021/02/Mojito-1-1024x1536.jpg" alt="Mojito">
+                    <h3>Mojito</h3>
+                    <p>Refreshing cocktail with mint, lime, and rum.</p>
+                    <span>Rs.100</span>
+                </div>
+               <div class="menu-item" data-category="drinks">
+                <img src="https://preppykitchen.com/wp-content/uploads/2021/04/Milkshake-Feature.jpg" alt="Milkshake">
+                <h3>Milkshakes</h3>
+                <p> Creamy and indulgent blended drinks with a variety of flavors and toppings</p>
+                <span>Rs.120</span>
+               </div>
+               <div class="menu-item" data-category="drinks">
+                <img src="https://www.hccb.in/images/RJ405908.jpg" alt="CD">
+                <h3>Cold Drinks</h3>
+                <p>Refreshing beverages served chilled to quench your thirst on a hot day</p>
+                <span>MRP</span>
+               </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="4" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+      <p>&copy; 2024 My Restaurant. All rights reserved.</p>
+      <p class="footer-address">123 Ramnagar,Bengaluru 560056</p>
+  </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuFilter = document.getElementById('menuCategory');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuFilter.addEventListener('change', (e) => {
+                const category = e.target.value;
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
